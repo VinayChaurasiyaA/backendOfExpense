@@ -102,7 +102,7 @@ function create(req, res) {
     fs.createReadStream(
       path.join(__dirname, "../", "/public/csv/" + req.file.filename)
     )
-      .pipe(csv.parse({headers : true}))
+      .pipe(csv.parse({ headers: true }))
       .on("error", (err) => console.log(err))
       .on("data", (row) => {
         allRecords.push(row);
@@ -110,7 +110,7 @@ function create(req, res) {
       .on("end", async (rowCount) => {
         console.log(`${rowCount} rows has passed`);
         try {
-          const user = await File.insertMany(allRecords);
+          const user = await model.Transaction.insertMany(allRecords);
           return res.json({
             message: "Users created successfully",
             user,
